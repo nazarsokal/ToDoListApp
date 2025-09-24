@@ -18,8 +18,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<UserDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<IRegistrationService, RegistrationService>();
-
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // Redirects

@@ -1,3 +1,4 @@
+@model LoginUserDto
 @{
     Layout = null;
 }
@@ -82,12 +83,14 @@
         <div class="login-title">Sign In</div>
         <form asp-action="Login" method="post">
             <div class="form-group">
-                <label for="Email">Email</label>
-                <input type="email" id="Email" name="Email" required autocomplete="username" placeholder="Enter your email" />
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" autocomplete="username" placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label for="Password">Password</label>
-                <input type="password" id="Password" name="Password" required autocomplete="current-password" placeholder="Enter your password" />
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" autocomplete="current-password" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <button type="submit" class="login-btn">Login</button>
             <a href="/Account/ForgotPassword" class="forgot-link">Forgot Password?</a>

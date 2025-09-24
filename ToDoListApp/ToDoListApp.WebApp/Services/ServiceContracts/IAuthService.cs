@@ -3,7 +3,8 @@ using ToDoListApp.WebApp.Models;
 
 namespace ToDoListApp.WebApp.Services.ServiceContracts;
 
-public interface IRegistrationService
+public interface IAuthService
 {
     public Task<IdentityResult> RegisterUserAsync(RegisterUserDto registerUserDto);
+    public Task<SignInResult> SignInUserAsync(LoginUserDto loginUserDto);
 }
