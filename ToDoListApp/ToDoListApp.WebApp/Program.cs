@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Common.Models;
 using ToDoListApp.IdentityDb;
+using ToDoListApp.WebApp.Services;
+using ToDoListApp.WebApp.Services.ServiceContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<UserDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
