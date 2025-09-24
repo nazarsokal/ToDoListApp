@@ -1,0 +1,110 @@
+@model ToDoListApp.WebApp.Models.RegisterUserDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            background: #f5f6fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .register-container {
+            width: 370px;
+            margin: 80px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 40px 30px 30px 30px;
+        }
+        .register-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #273c75;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #353b48;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dcdde1;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: #f1f2f6;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+            border: 1.5px solid #4078c0;
+            outline: none;
+        }
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            background: #44bd32;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .register-btn:hover {
+            background: #218c1e;
+        }
+        .login-link {
+            display: block;
+            text-align: right;
+            margin-top: 10px;
+            color: #4078c0;
+            text-decoration: none;
+            font-size: 0.98rem;
+        }
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-title">Create Account</div>
+        <form asp-action="Register" method="post">
+            <div class="form-group">
+                <label asp-for="FirstName">First Name</label>
+                <input type="text" id="FirstName" name="FirstName" required placeholder="Enter your first name" />
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName">Last Name</label>
+                <input type="text" id="LastName" name="LastName" required placeholder="Enter your last name" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input type="email" id="Email" name="Email" required autocomplete="username" placeholder="Enter your email" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password">Password</label>
+                <input type="password" id="Password" name="Password" required autocomplete="new-password" placeholder="Enter your password" />
+            </div>
+            <div class="form-group">
+                <label for="ConfirmPassword">Repeat Password</label>
+                <input type="password" id="ConfirmPassword" name="ConfirmPassword" required autocomplete="new-password" placeholder="Repeat your password" />
+            </div>
+            <button type="submit" class="register-btn">Create Account</button>
+            <a href="/Account/Login" class="login-link">Already have an account?</a>
+        </form>
+    </div>
+</body>
+</html>
