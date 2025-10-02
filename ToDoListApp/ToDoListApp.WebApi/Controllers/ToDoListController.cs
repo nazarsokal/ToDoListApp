@@ -1,16 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.WebApp.Models.Dto;
+using ToDoListApp.WebApi.Services.ServiceContracts;
 
 namespace ToDoListApp.WebApi.Controllers;
 
 public class ToDoListController : Controller
 {
+    private readonly IToDoListService toDoListService;
     private const string apiBaseUrl = "api/todolist";
+
+    public ToDoListController(IToDoListService toDoListService)
+    {
+        this.toDoListService = toDoListService;
+    }
 
     [HttpPost]
     [Route($"{apiBaseUrl}/create")]
-    public IActionResult CreateToDoItem()
+    public async Task<IActionResult> CreateToDoItem(CreateToDoListDto dto)
     {
-        return Ok("Create ToDo Item");
+        Guid? result = await this.toDoListService.CreateToDoListAsync(dto).ConfigureAwait(false);
+
+        return this.Ok($"Create ToDo Item {result}");
     }
 
     [HttpGet]

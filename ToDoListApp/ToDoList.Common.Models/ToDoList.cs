@@ -17,7 +17,8 @@ public class ToDoList
 
     public TaskStatus Status { get; set; }
 
-    public Dictionary<Guid, UserRole> UserRoles { get; set; }
+    public ICollection<ToDoListUser> UserRoles { get; set; } = new List<ToDoListUser>();
+
 }
 
 public enum TaskStatus

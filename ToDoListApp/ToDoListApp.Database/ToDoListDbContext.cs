@@ -14,14 +14,14 @@ public class ToDoListDbContext : DbContext
 
     public virtual DbSet<TaskItem> TaskItems => this.Set<TaskItem>();
 
+    public virtual DbSet<ToDoListUser> ToDoListUsers => this.Set<ToDoListUser>();
+
     protected override void OnModelCreating(ModelBuilder? modelBuilder)
     {
-        // ToDoList configuration
         if (modelBuilder == null)
-        {
             return;
-        }
 
+        // ToDoList configuration
         modelBuilder.Entity<ToDoList>(entity =>
         {
             entity.HasKey(t => t.Id);
@@ -29,13 +29,16 @@ public class ToDoListDbContext : DbContext
             entity.Property(t => t.Description).HasMaxLength(500);
             entity.Property(t => t.Status).IsRequired();
 
-            // Ignore UserRoles dictionary for now (requires join table for full support)
-            entity.Ignore(t => t.UserRoles);
-
             // One ToDoList has many TaskItems
             entity.HasMany(t => t.Tasks)
                 .WithOne()
                 .HasForeignKey("ToDoListId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // One ToDoList has many UserRoles
+            entity.HasMany(t => t.UserRoles)
+                .WithOne(ur => ur.ToDoList)
+                .HasForeignKey(ur => ur.ToDoListId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -52,6 +55,16 @@ public class ToDoListDbContext : DbContext
 
             // Add ToDoListId as foreign key
             entity.Property<Guid>("ToDoListId").IsRequired();
+        });
+
+        // ToDoListUser configuration (join table)
+        modelBuilder.Entity<ToDoListUser>(entity =>
+        {
+            entity.HasKey(ur => new { ur.ToDoListId, ur.UserId }); // composite key
+
+            entity.Property(ur => ur.Role)
+                .IsRequired()
+                .HasConversion<string>(); // store enum as string
         });
     }
 }

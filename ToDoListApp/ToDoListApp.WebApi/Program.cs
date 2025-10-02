@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoListApp.Database;
+using ToDoListApp.WebApi.Mapper;
+using ToDoListApp.WebApi.Services;
+using ToDoListApp.WebApi.Services.ServiceContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +17,8 @@ builder.Services.AddDbContext<ToDoListDbContext>(options =>
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionToDo"));
     });
-
+builder.Services.AddAutoMapper(typeof(ToDoListProfile));
+builder.Services.AddScoped<IToDoListService, ToDoListService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -36,6 +36,7 @@
     <ItemGroup>
       <ProjectReference Include="..\ToDoList.Common.Models\ToDoList.Common.Models.csproj" />
       <ProjectReference Include="..\ToDoList.WebApi.Models\ToDoList.WebApi.Models.csproj" />
+      <ProjectReference Include="..\ToDoList.WebApp.Models\ToDoList.WebApp.Models.csproj" />
       <ProjectReference Include="..\ToDoListApp.Database\ToDoListApp.Database.csproj" />
       <ProjectReference Include="..\ToDoListApp.IdentityDb\ToDoListApp.IdentityDb.csproj" />
     </ItemGroup>
