@@ -32,8 +32,9 @@ public class ToDoListController : Controller
 
     [HttpGet]
     [Route($"{apiBaseUrl}/get/{{id}}")]
-    public IActionResult GetToDoItemById(int id)
+    public async Task<IActionResult> GetToDoItemById(Guid id)
     {
-        return Ok(apiBaseUrl + "/" + id);
+        var result = await this.toDoListService.GetToDoListByIdAsync(id).ConfigureAwait(false);
+        return this.Ok(result);
     }
 }

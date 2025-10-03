@@ -1,5 +1,6 @@
 using AutoMapper;
 using ToDoList.Common.Models;
+using ToDoList.WebApi.Models;
 using ToDoList.WebApp.Models.Dto;
 using TaskStatus = ToDoList.Common.Models.TaskStatus;
 
@@ -25,5 +26,17 @@ public class ToDoListProfile : Profile
                     Role = UserRole.Owner,
                 },
             }));
+
+        this.CreateMap<ToDoList.Common.Models.ToDoList, GetToDoListDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+            .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.Tasks));
+
+        this.CreateMap<ToDoListUser, ToDoListUserDto>()
+            .ForMember(dest => dest.ToDoListId, opt => opt.MapFrom(src => src.ToDoListId))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
     }
 }

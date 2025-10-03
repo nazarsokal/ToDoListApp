@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using ToDoList.WebApi.Models;
+
 namespace ToDoListApp.WebApi.Services;
 
 using AutoMapper;
@@ -29,5 +32,26 @@ public class ToDoListService : IToDoListService
         }
 
         return toDoList.Id;
+    }
+
+    public async Task<GetToDoListDto> GetToDoListByIdAsync(Guid id)
+    {
+        var toDoList = await this.context.ToDoLists.
+            Include(u => u.Tasks).
+            FirstOrDefaultAsync(i => i.Id == id).ConfigureAwait(false);
+
+        var userRoles = await this.context.ToDoListUsers.
+            Where(i => i.ToDoListId == id).ToListAsync().ConfigureAwait(false);
+
+        var result = this.mapper.Map<GetToDoListDto>(toDoList);
+        var resultUserRoles = this.mapper.Map<List<ToDoListUserDto>>(userRoles);
+        result.UserRoles = resultUserRoles;
+
+        return result;
+    }
+
+    public Task<List<GetToDoListDto>> GetAllToDoListsAsync()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,7 +1,7 @@
+namespace ToDoList.Common.Models;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ToDoList.Common.Models;
 
 public class TaskItem
 {

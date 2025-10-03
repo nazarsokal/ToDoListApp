@@ -1,3 +1,4 @@
+using ToDoList.WebApi.Models;
 using ToDoList.WebApp.Models.Dto;
 
 namespace ToDoListApp.WebApi.Services.ServiceContracts;
@@ -5,4 +6,8 @@ namespace ToDoListApp.WebApi.Services.ServiceContracts;
 public interface IToDoListService
 {
     public Task<Guid> CreateToDoListAsync(CreateToDoListDto createToDoListDto);
+
+    public Task<GetToDoListDto> GetToDoListByIdAsync(Guid id);
+
+    public Task<List<GetToDoListDto>> GetAllToDoListsAsync();
 }
