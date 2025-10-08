@@ -50,8 +50,57 @@ public class ToDoListService : IToDoListService
         return result;
     }
 
-    public Task<List<GetToDoListDto>> GetAllToDoListsAsync()
+    public async Task<List<GetToDoListDto>> GetAllToDoListsAsync(Guid userId)
     {
-        throw new NotImplementedException();
+        var toDoLists = await this.context.ToDoLists
+            .Where(td => td.UserRoles.Any(r => r.UserId == userId))
+            .Include(u => u.Tasks)
+            .ToListAsync()
+            .ConfigureAwait(false);
+
+        var result = this.mapper.Map<List<GetToDoListDto>>(toDoLists);
+
+        // тягнемо всі ролі для цих списків
+        var userRoles = await this.context.ToDoListUsers
+                    .Where(r => toDoLists.Select(td => td.Id).Contains(r.ToDoListId))
+                    .ToListAsync()
+                    .ConfigureAwait(false);
+
+        foreach (var dto in result)
+        {
+            var rolesForList = userRoles
+                .Where(r => r.ToDoListId == dto.Id)
+                .ToList();
+
+            dto.UserRoles = this.mapper.Map<List<ToDoListUserDto>>(rolesForList);
+        }
+
+        return result;
+    }
+
+    public async Task<UpdateToDoListDto> UpdateToDoListAsync(Guid id, UpdateToDoListDto? updateToDoListDto)
+    {
+        var toDoList = this.context.ToDoLists.FirstOrDefault(t => t.Id == id);
+        if (toDoList == null)
+        {
+            throw new ArgumentException($"ToDoList with id {id} not found.");
+        }
+
+        if (updateToDoListDto != null)
+        {
+            toDoList.Title = updateToDoListDto.Title;
+            toDoList.Description = updateToDoListDto.Description;
+            toDoList.Status = (TaskStatus)updateToDoListDto.Status;
+        }
+
+        this.context.ToDoLists.Update(toDoList);
+        var result = await this.context.SaveChangesAsync().ConfigureAwait(false);
+
+        if (result <= 0)
+        {
+            throw new ArgumentException("Failed to update ToDoList in the database.");
+        }
+
+        return updateToDoListDto!;
     }
 }

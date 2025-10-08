@@ -9,5 +9,7 @@ public interface IToDoListService
 
     public Task<GetToDoListDto> GetToDoListByIdAsync(Guid id);
 
-    public Task<List<GetToDoListDto>> GetAllToDoListsAsync();
+    public Task<List<GetToDoListDto>> GetAllToDoListsAsync(Guid userId);
+
+    public Task<UpdateToDoListDto> UpdateToDoListAsync(Guid id, UpdateToDoListDto? updateToDoListDto);
 }
