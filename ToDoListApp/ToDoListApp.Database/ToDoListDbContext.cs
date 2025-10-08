@@ -1,3 +1,7 @@
+// <copyright file="ToDoListDbContext.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace ToDoListApp.Database;
 
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +31,7 @@ public class ToDoListDbContext : DbContext
             entity.HasKey(t => t.Id);
             entity.Property(t => t.Title).IsRequired().HasMaxLength(100);
             entity.Property(t => t.Description).HasMaxLength(500);
-            entity.Property(t => t.Status).IsRequired();
+            entity.Property(t => t.Status).IsRequired().HasConversion<string>();
 
             // One ToDoList has many TaskItems
             entity.HasMany(t => t.Tasks)
@@ -51,7 +55,7 @@ public class ToDoListDbContext : DbContext
             entity.Property(ti => ti.DateCreated).IsRequired();
             entity.Property(ti => ti.DueDate).IsRequired();
             entity.Property(ti => ti.AssignedUserId).IsRequired();
-            entity.Property(ti => ti.Status).IsRequired();
+            entity.Property(ti => ti.Status).IsRequired().HasConversion<string>();
 
             // Add ToDoListId as foreign key
             entity.Property<Guid>("ToDoListId").IsRequired();
