@@ -17,7 +17,7 @@ public class GetToDoListDto
 
     public List<TaskItem> Tasks { get; set; }
 
-    public TaskStatus Status { get; set; }
+    public string Status { get; set; }
 
     public ICollection<ToDoListUserDto> UserRoles { get; set; } = new List<ToDoListUserDto>();
 }

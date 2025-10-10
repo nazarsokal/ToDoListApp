@@ -1,4 +1,7 @@
-﻿namespace ToDoListApp.WebApp.Controllers;
+﻿using Microsoft.AspNetCore.Identity;
+using ToDoList.Common.Models;
+
+namespace ToDoListApp.WebApp.Controllers;
 
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
@@ -9,15 +12,22 @@ using ToDoListApp.WebApp.Models;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> logger;
+    private readonly UserManager<ApplicationUser> userManager;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
     {
         this.logger = logger;
+        this.userManager = userManager;
     }
 
     [Route("/")]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        var user = await this.userManager.GetUserAsync(this.User).ConfigureAwait(false);
+
+        this.ViewBag.UserName = user.FirstName;
+        this.ViewBag.LastName = user.LastName;
+
         return this.View();
     }
 

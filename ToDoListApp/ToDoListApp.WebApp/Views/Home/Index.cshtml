@@ -1,8 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "_LayoutHeader";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    Welcome to your ToDo List Application! Manage your tasks efficiently and stay organized.
+    <form action="/ToDoList" method="get" style="display:inline;">
+        <button type="submit">Go to your ToDos</button>
+    </form>
 </div>

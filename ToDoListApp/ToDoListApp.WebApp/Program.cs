@@ -13,8 +13,15 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionUsers")));
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+builder.Services.AddScoped<IToDoListService, ToDoListService>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+    {
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false; // turn off special character requirement
+        options.Password.RequiredLength = 6;
+    })
     .AddEntityFrameworkStores<UserDbContext>()
     .AddDefaultTokenProviders();
 

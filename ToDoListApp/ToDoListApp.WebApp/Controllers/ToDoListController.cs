@@ -1,12 +1,28 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Common.Models;
+using ToDoListApp.WebApp.Services.ServiceContracts;
 
 namespace ToDoListApp.WebApp.Controllers;
 
 public class ToDoListController : Controller
 {
-    [Route("/ToDoList")]
-    public IActionResult Index()
+    private readonly IToDoListService toDoListService;
+    private readonly UserManager<ApplicationUser> userManager;
+
+    public ToDoListController(IToDoListService toDoListService, UserManager<ApplicationUser> userManager)
     {
+        this.toDoListService = toDoListService;
+        this.userManager = userManager;
+    }
+
+    [HttpGet]
+    [Route("/ToDoList")]
+    public async Task<IActionResult> Index()
+    {
+        var user = await this.userManager.GetUserAsync(this.User).ConfigureAwait(false);
+        var tasks = await this.toDoListService.GetAllTasksAsync(user.Id).ConfigureAwait(false);
+        this.ViewBag.ToDoLists = tasks;
         return this.View();
     }
 }

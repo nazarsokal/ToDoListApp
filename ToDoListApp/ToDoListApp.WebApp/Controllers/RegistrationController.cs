@@ -32,11 +32,11 @@ public class RegistrationController : Controller
         var result = await this._authService.RegisterUserAsync(user).ConfigureAwait(false);
         if (result.Succeeded)
         {
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
-        ModelState.AddModelError("", "Invalid login attempt.");
-        return View(user);
+        this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        return this.View(user);
     }
 
     [Route("/Account/Login")]

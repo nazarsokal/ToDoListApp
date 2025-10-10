@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+<header class="user-header">
+    <div class="user-info">
+        <span class="user-name">@ViewBag.FirstName @ViewBag.LastName</span>
+    </div>
+</header>
+<style>
+.user-header {
+    background: #2d3e50;
+    padding: 16px 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.user-info {
+    margin-left: auto;
+}
+.user-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+</style>
+@RenderBody()
+
+</body>
+</html>
