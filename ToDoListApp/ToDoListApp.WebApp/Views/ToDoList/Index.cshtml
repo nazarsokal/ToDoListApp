@@ -96,7 +96,7 @@
                     <td>@todo.Title</td>
                     <td>@todo.Description</td>
                     <td class="actions">
-                        <form method="get" asp-action="View" asp-route-id="@todo.ToDoListId" style="display:inline;">
+                        <form method="get" asp-action="GetTaskById" asp-route-id="@todo.ToDoListId" style="display:inline;">
                             <button type="submit" class="view">View</button>
                         </form>
                         <form method="get" asp-action="Edit" asp-route-id="@todo.ToDoListId" style="display:inline;">

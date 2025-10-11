@@ -1,9 +1,9 @@
+namespace ToDoListApp.WebApi.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.WebApi.Models;
 using ToDoList.WebApp.Models.Dto;
 using ToDoListApp.WebApi.Services.ServiceContracts;
-
-namespace ToDoListApp.WebApi.Controllers;
 
 public class ToDoListController : Controller
 {
@@ -45,6 +45,15 @@ public class ToDoListController : Controller
     public async Task<IActionResult> UpdateToDoItem(Guid id, UpdateToDoListDto? dto)
     {
         var result = await this.toDoListService.UpdateToDoListAsync(id, dto).ConfigureAwait(false);
+
+        return this.Ok(result);
+    }
+
+    [HttpPost]
+    [Route($"{ApiBaseUrl}/adduser/{{id}}")]
+    public async Task<IActionResult> AddUserToToDoList(Guid id, AddUserToToDoListDto? dto)
+    {
+        var result = await this.toDoListService.AddUserToToDoListAsync(id, dto).ConfigureAwait(false);
 
         return this.Ok(result);
     }

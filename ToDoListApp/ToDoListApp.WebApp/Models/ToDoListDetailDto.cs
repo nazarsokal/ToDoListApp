@@ -12,5 +12,5 @@ public class ToDoListDetailDto
 
     public string Status { get; set; }
 
-    public Dictionary<string, string> UserRoles { get; set; }
+    public ICollection<UserRolesDto> UserRoles { get; set; }
 }

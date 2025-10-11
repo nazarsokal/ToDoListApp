@@ -12,4 +12,6 @@ public interface IToDoListService
     public Task<List<GetToDoListDto>> GetAllToDoListsAsync(Guid userId);
 
     public Task<UpdateToDoListDto> UpdateToDoListAsync(Guid id, UpdateToDoListDto? updateToDoListDto);
+
+    public Task<AddUserToToDoListDto?> AddUserToToDoListAsync(Guid id, AddUserToToDoListDto? addUserToToDoListDto);
 }

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace ToDoList.WebApi.Models;
 
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +10,7 @@ using TaskStatus = System.Threading.Tasks.TaskStatus;
 public class GetToDoListDto
 {
     [Key]
-    [Column("ToDoListId")]
+    [JsonPropertyName("ToDoListId")]
     public Guid Id { get; set; }
 
     public string Title { get; set; }

@@ -56,6 +56,7 @@ public class ToDoListDbContext : DbContext
             entity.Property(ti => ti.DueDate).IsRequired();
             entity.Property(ti => ti.AssignedUserId).IsRequired();
             entity.Property(ti => ti.Status).IsRequired().HasConversion<string>();
+            entity.Property(ti => ti.Priority).IsRequired().HasConversion<string>();
 
             // Add ToDoListId as foreign key
             entity.Property<Guid>("ToDoListId").IsRequired();

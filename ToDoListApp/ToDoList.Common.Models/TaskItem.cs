@@ -17,7 +17,17 @@ public class TaskItem
 
     public DateTime DueDate { get; set; }
 
+    public TaskPriority Priority { get; set; } = TaskPriority.Low;
+
     public Guid AssignedUserId { get; set; }
 
     public TaskStatus Status { get; set; }
+}
+
+public enum TaskPriority
+{
+    Low,
+    Medium,
+    High,
+    Critical
 }

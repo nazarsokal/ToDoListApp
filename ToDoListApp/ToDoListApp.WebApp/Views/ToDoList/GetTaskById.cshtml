@@ -1,0 +1,211 @@
+@model ToDoListApp.WebApp.Models.ToDoListDetailDto
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "_Layout";
+    var roleOptions = new[] { "User", "Owner", "Editor" };
+}
+
+<div class="todo-detail-container">
+    <div class="todo-header">
+        <h2>@Model.Title</h2>
+        <p class="todo-description">@Model.Description</p>
+    </div>
+    <div class="todo-meta">
+        <span class="todo-status">Status: @Model.Status</span>
+        <span class="todo-id">ID: @Model.ToDoListId</span>
+    </div>
+    <div class="todo-tasks">
+        <h3>Tasks</h3>
+        @if (Model?.TasksList != null && Model.TasksList.Any())
+        {
+            <ul class="tasks-list">
+                @foreach (var task in Model.TasksList)
+                {
+                    <li class="task-item">@task</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="no-tasks">No tasks in this list.</p>
+        }
+    </div>
+    @if (Model?.UserRoles != null && Model.UserRoles.Any())
+    {
+        <div class="todo-users">
+            <h3>User Roles</h3>
+            <form class="add-user-form" method="post" action="/ToDoList/AddUser">
+                <input type="hidden" name="ToDoListId" value="@Model.ToDoListId" />
+                <div class="add-user-fields">
+                    <input type="text" name="FirstName" placeholder="First Name" required />
+                    <input type="text" name="LastName" placeholder="Last Name" required />
+                    <input type="email" name="Email" placeholder="Email" required />
+                    <select name="Role" class="role-dropdown">
+                        <option value="User">User</option>
+                        <option value="Owner">Owner</option>
+                        <option value="Editor">Editor</option>
+                    </select>
+                    <button type="submit" class="add-user-btn">Add User</button>
+                </div>
+            </form>
+            <table class="user-roles-table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var userRole in Model.UserRoles)
+                {
+                    <tr>
+                        <td>@userRole.FirstName</td>
+                        <td>@userRole.LastName</td>
+                        <td>
+                            <select class="role-dropdown" name="role-@userRole.UserId">
+                                @foreach (var option in roleOptions)
+                                {
+                                    var selected = userRole.Role.ToString() == option ? "selected" : "";
+                                    <option value="@option" selected="@selected">@option</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<style>
+.todo-detail-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 32px 40px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.todo-header h2 {
+    margin-bottom: 8px;
+    font-size: 2.2rem;
+    color: #2d3e50;
+}
+.todo-description {
+    color: #6c7a89;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+}
+.todo-meta {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    font-size: 1rem;
+    color: #4a4a4a;
+    flex-wrap: wrap;
+}
+.todo-status {
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: #e3eafc;
+    color: #2d3e50;
+}
+.todo-id, .todo-date {
+    background: #f2f6fa;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+.todo-tasks {
+    margin-top: 32px;
+}
+.tasks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.task-item {
+    background: #f9fbfd;
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    font-size: 1.05rem;
+    color: #2d3e50;
+}
+.no-tasks {
+    color: #b0b0b0;
+    font-style: italic;
+    margin-top: 12px;
+}
+.todo-users {
+    margin-top: 36px;
+}
+.user-roles-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    background: #f9fbfd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.user-roles-table th, .user-roles-table td {
+    padding: 10px 8px;
+    text-align: left;
+}
+.user-roles-table th {
+    background: #e3eafc;
+    color: #2d3e50;
+    font-weight: 600;
+}
+.user-roles-table tr:nth-child(even) {
+    background: #f2f6fa;
+}
+.role-dropdown {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #bfc9d1;
+    background: #fff;
+    font-size: 1rem;
+    color: #2d3e50;
+}
+.add-user-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+    gap: 8px;
+}
+.add-user-fields {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.add-user-form input[type="text"],
+.add-user-form input[type="email"],
+.add-user-form select {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #bfc9d1;
+    font-size: 1rem;
+    color: #2d3e50;
+}
+.add-user-btn {
+    background: #2d3e50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.add-user-btn:hover {
+    background: #1a2533;
+}
+</style>

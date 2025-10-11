@@ -103,4 +103,40 @@ public class ToDoListService : IToDoListService
 
         return updateToDoListDto!;
     }
+
+    public async Task<AddUserToToDoListDto?> AddUserToToDoListAsync(Guid id, AddUserToToDoListDto? addUserToToDoListDto)
+    {
+        var toDoList = await this.context.ToDoLists
+            .Include(t => t.UserRoles)
+            .FirstOrDefaultAsync(t => t.Id == id).ConfigureAwait(false);
+
+        ToDoListUser? existingUserRole = toDoList?.UserRoles
+            .FirstOrDefault(ur => addUserToToDoListDto != null && ur.UserId == addUserToToDoListDto.Id);
+
+        if (existingUserRole == null)
+        {
+            {
+                if (addUserToToDoListDto != null)
+                {
+                    var newUserRole = new ToDoListUser
+                    {
+                        ToDoListId = id,
+                        UserId = addUserToToDoListDto.Id,
+                        Role = (UserRole)Enum.Parse(typeof(UserRole), addUserToToDoListDto.Role, true),
+                    };
+                    await this.context.ToDoListUsers.AddAsync(newUserRole).ConfigureAwait(false);
+                }
+            }
+
+            var result = await this.context.SaveChangesAsync().ConfigureAwait(false);
+            if (result <= 0)
+            {
+                throw new ArgumentException("Failed to add user to ToDoList in the database.");
+            }
+
+            return addUserToToDoListDto;
+        }
+
+        throw new ArgumentException("SOMEONE ALREADY HAS THIS ROLE IN THE LIST");
+    }
 }
