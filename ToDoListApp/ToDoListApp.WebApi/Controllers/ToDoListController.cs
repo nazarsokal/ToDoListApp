@@ -51,7 +51,7 @@ public class ToDoListController : Controller
 
     [HttpPost]
     [Route($"{ApiBaseUrl}/adduser/{{id}}")]
-    public async Task<IActionResult> AddUserToToDoList(Guid id, AddUserToToDoListDto? dto)
+    public async Task<IActionResult> AddUserToToDoList([FromRoute] Guid id, [FromBody] AddUserToToDoListDto? dto)
     {
         var result = await this.toDoListService.AddUserToToDoListAsync(id, dto).ConfigureAwait(false);
 

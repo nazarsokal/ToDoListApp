@@ -2,13 +2,12 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+namespace ToDoListApp.WebApp.Services;
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Common.Models;
 using ToDoListApp.IdentityDb;
-
-namespace ToDoListApp.WebApp.Services;
-
 using ToDoListApp.WebApp.Models;
 using ToDoListApp.WebApp.Services.ServiceContracts;
 
@@ -60,12 +59,23 @@ public class ToDoListService : IToDoListService
 
     public async Task<AddUserToToDoListDto> AddUserToToDoListAsync(Guid id, AddUserToToDoListDto? addUserToToDoListDto)
     {
-        var response = await this.httpClient.PostAsJsonAsync($"{BaseUrl}/adduser/{id}", addUserToToDoListDto).ConfigureAwait(false);
-
-        if (response.IsSuccessStatusCode)
+        var foundUser = await this.context.Users.FirstOrDefaultAsync(u => u.Email == addUserToToDoListDto!.email).ConfigureAwait(false);
+        if (foundUser == null)
         {
-            var result = await response.Content.ReadFromJsonAsync<AddUserToToDoListDto>().ConfigureAwait(false);
-            return await Task.FromResult(result ?? new AddUserToToDoListDto()).ConfigureAwait(false);
+            throw new NullReferenceException("Failed to add user to task from the API.");
+        }
+
+        if (addUserToToDoListDto != null)
+        {
+            addUserToToDoListDto.Id = foundUser!.Id;
+            var response = await this.httpClient.PostAsJsonAsync($"{BaseUrl}/adduser/{id}", addUserToToDoListDto)
+                .ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<AddUserToToDoListDto>().ConfigureAwait(false);
+                return await Task.FromResult(result ?? new AddUserToToDoListDto()).ConfigureAwait(false);
+            }
         }
 
         throw new NullReferenceException("Failed to fetch user from the API.");

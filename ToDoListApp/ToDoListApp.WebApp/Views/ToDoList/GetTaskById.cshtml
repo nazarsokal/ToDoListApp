@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = Model.Title;
     Layout = "_Layout";
-    var roleOptions = new[] { "User", "Owner", "Editor" };
+    var roleOptions = new[] { "Viewer", "Owner", "Editor" };
 }
 
 <div class="todo-detail-container">
@@ -35,14 +35,12 @@
     {
         <div class="todo-users">
             <h3>User Roles</h3>
-            <form class="add-user-form" method="post" action="/ToDoList/AddUser">
-                <input type="hidden" name="ToDoListId" value="@Model.ToDoListId" />
+            <form class="add-user-form" method="post" action="/ToDoList/adduser">
+                <input type="hidden" name="id" value="@Model.ToDoListId" />
                 <div class="add-user-fields">
-                    <input type="text" name="FirstName" placeholder="First Name" required />
-                    <input type="text" name="LastName" placeholder="Last Name" required />
                     <input type="email" name="Email" placeholder="Email" required />
                     <select name="Role" class="role-dropdown">
-                        <option value="User">User</option>
+                        <option value="Viewer">Viewer</option>
                         <option value="Owner">Owner</option>
                         <option value="Editor">Editor</option>
                     </select>
@@ -67,8 +65,14 @@
                             <select class="role-dropdown" name="role-@userRole.UserId">
                                 @foreach (var option in roleOptions)
                                 {
-                                    var selected = userRole.Role.ToString() == option ? "selected" : "";
-                                    <option value="@option" selected="@selected">@option</option>
+                                    if (userRole.Role.ToString() == option)
+                                    {
+                                        <option value="@option" selected="selected">@option</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@option">@option</option>
+                                    }
                                 }
                             </select>
                         </td>

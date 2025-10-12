@@ -2,7 +2,7 @@ namespace ToDoList.WebApi.Models;
 
 public class AddUserToToDoListDto
 {
-    public Guid Id { get; set; }
+    public Guid? UserId { get; set; }
 
     public string email { get; set; }
 

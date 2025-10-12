@@ -6,7 +6,7 @@ public class ToDoListUser
 
     public ToDoList ToDoList { get; set; }
 
-    public Guid UserId { get; init; }
+    public Guid? UserId { get; init; }
 
     public UserRole Role { get; init; }
 }

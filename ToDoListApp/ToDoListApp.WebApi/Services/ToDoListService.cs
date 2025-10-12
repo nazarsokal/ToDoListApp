@@ -111,7 +111,7 @@ public class ToDoListService : IToDoListService
             .FirstOrDefaultAsync(t => t.Id == id).ConfigureAwait(false);
 
         ToDoListUser? existingUserRole = toDoList?.UserRoles
-            .FirstOrDefault(ur => addUserToToDoListDto != null && ur.UserId == addUserToToDoListDto.Id);
+            .FirstOrDefault(ur => addUserToToDoListDto != null && ur.UserId == addUserToToDoListDto.UserId);
 
         if (existingUserRole == null)
         {
@@ -121,7 +121,7 @@ public class ToDoListService : IToDoListService
                     var newUserRole = new ToDoListUser
                     {
                         ToDoListId = id,
-                        UserId = addUserToToDoListDto.Id,
+                        UserId = addUserToToDoListDto.UserId,
                         Role = (UserRole)Enum.Parse(typeof(UserRole), addUserToToDoListDto.Role, true),
                     };
                     await this.context.ToDoListUsers.AddAsync(newUserRole).ConfigureAwait(false);

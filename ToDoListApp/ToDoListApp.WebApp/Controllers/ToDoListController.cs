@@ -36,7 +36,7 @@ public class ToDoListController : Controller
     }
 
     [HttpPost]
-    [Route("/ToDoList/adduser/{id}")]
+    [Route("/ToDoList/adduser")]
     public async Task<IActionResult> AddUserToToDoList(Guid id, string email)
     {
         var dto = new AddUserToToDoListDto()
