@@ -9,11 +9,13 @@ namespace ToDoListApp.WebApp.Controllers;
 public class ToDoListController : Controller
 {
     private readonly IToDoListService toDoListService;
+    private readonly ITaskService taskService;
     private readonly UserManager<ApplicationUser> userManager;
 
-    public ToDoListController(IToDoListService toDoListService, UserManager<ApplicationUser> userManager)
+    public ToDoListController(IToDoListService toDoListService, ITaskService taskService, UserManager<ApplicationUser> userManager)
     {
         this.toDoListService = toDoListService;
+        this.taskService = taskService;
         this.userManager = userManager;
     }
 
@@ -46,5 +48,14 @@ public class ToDoListController : Controller
         };
         var result = await this.toDoListService.AddUserToToDoListAsync(id, dto).ConfigureAwait(false);
         return this.RedirectToAction("GetTaskById", new { id = id });
+    }
+
+    [HttpPost]
+    [Route("/ToDoList/createtask")]
+    public async Task<IActionResult> CreateTask(CreateTaskDto? createTaskDto)
+    {
+        ArgumentNullException.ThrowIfNull(createTaskDto);
+        var result = await this.taskService.CreateTask(createTaskDto).ConfigureAwait(false);
+        return this.RedirectToAction("GetTaskById", new { id = createTaskDto.ToDoListId });
     }
 }

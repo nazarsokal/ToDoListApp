@@ -14,6 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionUsers")));
 builder.Services.AddScoped<IToDoListService, ToDoListService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
     {
         options.Password.RequireDigit = false;

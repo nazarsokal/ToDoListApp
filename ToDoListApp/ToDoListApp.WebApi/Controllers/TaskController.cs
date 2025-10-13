@@ -17,7 +17,7 @@ public class TaskController : Controller
 
     [HttpPost]
     [Route($"{ApiBaseUrl}/create")]
-    public async Task<IActionResult> CreateTask(TaskCreateDto taskCreateDto)
+    public async Task<IActionResult> CreateTask([FromBody] TaskCreateDto taskCreateDto)
     {
         var result = await this.taskService.CreateTask(taskCreateDto).ConfigureAwait(false);
         if (result != Guid.Empty)

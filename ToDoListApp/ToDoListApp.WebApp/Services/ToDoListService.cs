@@ -1,9 +1,6 @@
 // <copyright file="ToDoListService.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
-
-using System.Diagnostics;
-
 namespace ToDoListApp.WebApp.Services;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

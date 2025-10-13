@@ -9,7 +9,7 @@ public class TaskProfile : Profile
     public TaskProfile()
     {
         this.CreateMap<TaskCreateDto, TaskItem>()
-            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(_ => DateTime.UtcNow))
             .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => Enum.Parse<TaskPriority>(src.Priority)))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => TaskStatus.NotStarted))

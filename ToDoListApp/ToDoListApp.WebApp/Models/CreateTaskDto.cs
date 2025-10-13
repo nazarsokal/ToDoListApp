@@ -1,6 +1,6 @@
-namespace ToDoList.WebApi.Models;
+namespace ToDoListApp.WebApp.Models;
 
-public class TaskCreateDto
+public class CreateTaskDto
 {
     public string Title { get; set; }
 
@@ -8,9 +8,9 @@ public class TaskCreateDto
 
     public DateTime DueDate { get; set; }
 
-    public Guid ToDoListId { get; set; }
-
     public string Priority { get; set; }
 
-    public Guid AssignedUserId { get; set;  }
+    public Guid AssignedUserId { get; set; }
+
+    public Guid ToDoListId { get; set; }
 }
