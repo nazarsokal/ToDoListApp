@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace ToDoListApp.WebApp.Models;
 
 public class ToDoListDetailDto
@@ -8,7 +10,8 @@ public class ToDoListDetailDto
 
     public string Description { get; set; }
 
-    public List<string> TasksList { get; set; }
+    [JsonPropertyName("tasks")]
+    public List<TaskSummary> TasksList { get; set; }
 
     public string Status { get; set; }
 

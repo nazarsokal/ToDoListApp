@@ -2,6 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System.Diagnostics;
+
 namespace ToDoListApp.WebApp.Services;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -40,18 +42,25 @@ public class ToDoListService : IToDoListService
     public async Task<ToDoListDetailDto> GetTaskByIdAsync(Guid taskId)
     {
         var response = await this.httpClient.GetAsync($"{BaseUrl}/get/{taskId}").ConfigureAwait(false);
-
+        var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         if (response.IsSuccessStatusCode)
         {
-            var task = await response.Content.ReadFromJsonAsync<ToDoListDetailDto>().ConfigureAwait(false);
-            foreach (var taskUserRole in task!.UserRoles)
+            var todoList = await response.Content.ReadFromJsonAsync<ToDoListDetailDto>().ConfigureAwait(false);
+            foreach (var taskUserRole in todoList!.UserRoles)
             {
                 var foundUser = await this.context.Users.FirstOrDefaultAsync(u => u.Id == taskUserRole.UserId).ConfigureAwait(false);
                 taskUserRole.FirstName = foundUser?.FirstName;
                 taskUserRole.LastName = foundUser?.LastName;
             }
 
-            return await Task.FromResult(task ?? new ToDoListDetailDto()).ConfigureAwait(false);
+            foreach (var task in todoList!.TasksList)
+            {
+                var foundUser = await this.context.Users.FirstOrDefaultAsync(u => u.Id == task.AssignedUserId).ConfigureAwait(false);
+                task.FirstNameAssigned = foundUser?.FirstName;
+                task.LastNameAssigned = foundUser?.LastName;
+            }
+
+            return await Task.FromResult(todoList ?? new ToDoListDetailDto()).ConfigureAwait(false);
         }
 
         throw new NullReferenceException("Failed to fetch task from the API.");

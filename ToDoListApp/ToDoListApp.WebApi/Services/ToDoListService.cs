@@ -1,10 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using ToDoList.WebApi.Models;
-
 namespace ToDoListApp.WebApi.Services;
 
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Common.Models;
+using ToDoList.WebApi.Models;
 using ToDoList.WebApp.Models.Dto;
 using ToDoListApp.Database;
 using ToDoListApp.WebApi.Mapper;

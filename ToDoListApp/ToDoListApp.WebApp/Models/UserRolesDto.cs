@@ -8,12 +8,5 @@ public class UserRolesDto
 
     public string? LastName { get; set; }
 
-    public UserRole Role { get; init; }
-}
-
-public enum UserRole
-{
-    Owner,
-    Contributor,
-    Viewer
+    public string Role { get; init; }
 }

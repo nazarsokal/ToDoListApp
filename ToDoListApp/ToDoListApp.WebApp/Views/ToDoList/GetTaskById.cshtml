@@ -22,7 +22,15 @@
             <ul class="tasks-list">
                 @foreach (var task in Model.TasksList)
                 {
-                    <li class="task-item">@task</li>
+                    <li class="task-item">
+                        <div><strong>ID:</strong> @task.TaskId</div>
+                        <div><strong>Title:</strong> @task.Title</div>
+                        <div><strong>Description:</strong> @task.Description</div>
+                        <div><strong>Date Created:</strong> @task.DateCreated.ToString("yyyy-MM-dd HH:mm")</div>
+                        <div><strong>Due Date:</strong> @task.DueDate.ToString("yyyy-MM-dd HH:mm")</div>
+                        <div><strong>Assigned User:</strong> @task.FirstNameAssigned @task.LastNameAssigned</div>
+                        <div><strong>Status:</strong> @task.Status</div>
+                    </li>
                 }
             </ul>
         }
