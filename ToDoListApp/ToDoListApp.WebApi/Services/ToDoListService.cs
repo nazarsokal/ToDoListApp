@@ -89,7 +89,7 @@ public class ToDoListService : IToDoListService
         {
             toDoList.Title = updateToDoListDto.Title;
             toDoList.Description = updateToDoListDto.Description;
-            toDoList.Status = (TaskStatus)updateToDoListDto.Status;
+            toDoList.Status = (StatusTask)updateToDoListDto.Status;
         }
 
         this.context.ToDoLists.Update(toDoList);

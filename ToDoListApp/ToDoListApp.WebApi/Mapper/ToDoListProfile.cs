@@ -2,7 +2,6 @@ using AutoMapper;
 using ToDoList.Common.Models;
 using ToDoList.WebApi.Models;
 using ToDoList.WebApp.Models.Dto;
-using TaskStatus = ToDoList.Common.Models.TaskStatus;
 
 namespace ToDoListApp.WebApi.Mapper;
 
@@ -16,7 +15,7 @@ public class ToDoListProfile : Profile
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
             .ForMember(dest => dest.Tasks, opt => opt.Ignore())
-            .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => TaskStatus.NotStarted))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => StatusTask.NotStarted))
             .ForMember(dest => dest.UserRoles, opt => opt.MapFrom(src => new List<ToDoListUser>
             {
                 new()

@@ -81,6 +81,61 @@
                                 </button>
                             </div>
                         </div>
+                        <form id="editForm-@task.TaskId"
+                              class="edit-task-form hidden"
+                              method="post"
+                              asp-controller="ToDoList"
+                              asp-action="UpdateTask">
+                            <input type="hidden" name="ToDoListId" value="@Model.ToDoListId" />
+                            <input type="hidden" name="Id" value="@task.TaskId"/>
+
+                            <div class="edit-task-fields">
+                                <label>Title:</label>
+                                <input type="text" name="Title" value="@task.Title" required/>
+
+                                <label>Description:</label>
+                                <textarea name="Description" rows="2" required>@task.Description</textarea>
+
+                                <div class="edit-task-inline">
+                                    <label>Due Date:</label>
+                                    <input type="datetime-local"
+                                           name="DueDate"
+                                           value="@(task.DueDate == DateTime.MinValue ? "" : task.DueDate.ToString("yyyy-MM-ddTHH:mm"))"/>
+
+                                    <label>Priority:</label>
+                                    <select name="Priority">
+                                        <option value="Low" selected="@(task.Priority == "Low")">Low</option>
+                                        <option value="Medium" selected="@(task.Priority == "Medium")">Medium</option>
+                                        <option value="High" selected="@(task.Priority == "High")">High</option>
+                                        <option value="Critical" selected="@(task.Priority == "Critical")">Critical</option>
+                                    </select>
+
+                                    <label>Status:</label>
+                                    <select name="Status">
+                                        <option value="NotStarted" selected="@(task.Status == "NotStarted")">Not Started</option>
+                                        <option value="InProgress" selected="@(task.Status == "InProgress")">In Progress</option>
+                                        <option value="Completed" selected="@(task.Status == "Completed")">Completed</option>
+                                    </select>
+                                </div>
+
+                                <label>Assign To:</label>
+                                <select name="AssignedUserId">
+                                    <option disabled selected>Select user</option>
+                                    @foreach (var user in Model.UserRoles)
+                                    {
+                                        var fullName = $"{user.FirstName} {user.LastName}";
+                                        <option value="@user.UserId" selected="@(task.AssignedUserId == user.UserId)">
+                                            @fullName
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="edit-task-buttons">
+                                <button type="submit" class="save-edit-btn">Save</button>
+                                <button type="button" class="cancel-edit-btn" data-task-id="@task.TaskId">Cancel</button>
+                            </div>
+                        </form>
 
                         <div class="task-meta">
                             <span><strong>ID:</strong> @task.TaskId</span>
@@ -462,6 +517,76 @@
 .cancel-task-btn:hover {
     background: #8a8a8a;
 }
+/* === EDIT TASK FORM === */
+.edit-task-form {
+    background: #f9fbfd;
+    border: 1px solid #e4e9f2;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    animation: fadeIn 0.2s ease;
+}
+
+.edit-task-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-task-inline {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.edit-task-form input,
+.edit-task-form textarea,
+.edit-task-form select {
+    border: 1px solid #bfc9d1;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    color: #2d3e50;
+}
+
+.edit-task-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.save-edit-btn {
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.save-edit-btn:hover {
+    background: #145ec4;
+}
+
+.cancel-edit-btn {
+    background: #b0b0b0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancel-edit-btn:hover {
+    background: #8a8a8a;
+}
+
 
 /* Smooth fade in */
 @@keyframes fadeIn {
@@ -483,6 +608,38 @@ document.addEventListener("DOMContentLoaded", function () {
     cancelBtn.addEventListener("click", () => {
         form.classList.add("hidden");
         toggleBtn.style.display = "inline-block";
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Existing toggle for Add Task
+    const toggleBtn = document.getElementById("toggleAddTask");
+    const cancelBtn = document.getElementById("cancelAddTask");
+    const form = document.getElementById("addTaskForm");
+
+    toggleBtn?.addEventListener("click", () => {
+        form.classList.remove("hidden");
+        toggleBtn.style.display = "none";
+    });
+    cancelBtn?.addEventListener("click", () => {
+        form.classList.add("hidden");
+        toggleBtn.style.display = "inline-block";
+    });
+    
+    document.querySelectorAll(".edit-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const card = this.closest(".task-card");
+            const form = card.querySelector(".edit-task-form");
+            form.classList.toggle("hidden");
+        });
+    });
+
+    document.querySelectorAll(".cancel-edit-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const taskId = this.getAttribute("data-task-id");
+            const form = document.getElementById(`editForm-${taskId}`);
+            form.classList.add("hidden");
+        });
     });
 });
 </script>

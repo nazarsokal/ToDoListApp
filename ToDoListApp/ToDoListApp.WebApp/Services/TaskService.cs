@@ -21,4 +21,18 @@ public class TaskService : ITaskService
 
         throw new NullReferenceException("Failed to create task from the API.");
     }
+
+    public async Task<UpdateTaskDto> UpdateTask(Guid taskId, UpdateTaskDto? updateTaskDto)
+    {
+        var response = await this.httpClient.PutAsJsonAsync($"{BaseUrl}/update", updateTaskDto)
+            .ConfigureAwait(false);
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<UpdateTaskDto>()
+                .ConfigureAwait(false);
+            return await Task.FromResult(result ?? new UpdateTaskDto()).ConfigureAwait(false);
+        }
+
+        throw new NullReferenceException("Failed to fetch task from the API.");
+    }
 }

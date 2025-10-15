@@ -27,4 +27,14 @@ public class TaskController : Controller
 
         return this.BadRequest();
     }
+
+    [HttpPut]
+    [Route($"{ApiBaseUrl}/update")]
+    public async Task<IActionResult> UpdateTask([FromBody] TaskUpdateDto taskUpdateDto)
+    {
+        var result = await this.taskService.UpdateTask(taskUpdateDto).ConfigureAwait(false);
+        return this.Ok(result);
+
+        return this.BadRequest();
+    }
 }

@@ -21,7 +21,7 @@ public class TaskItem
 
     public Guid AssignedUserId { get; set; }
 
-    public TaskStatus Status { get; set; }
+    public StatusTask Status { get; set; }
 
     [ForeignKey("ToDoListId")]
     public Guid ToDoListId { get; set; }

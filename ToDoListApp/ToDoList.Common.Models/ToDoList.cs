@@ -15,13 +15,13 @@ public class ToDoList
 
     public List<TaskItem> Tasks { get; set; }
 
-    public TaskStatus Status { get; set; }
+    public StatusTask Status { get; set; }
 
     public ICollection<ToDoListUser> UserRoles { get; set; } = new List<ToDoListUser>();
 
 }
 
-public enum TaskStatus
+public enum StatusTask
 {
     NotStarted,
     InProgress,

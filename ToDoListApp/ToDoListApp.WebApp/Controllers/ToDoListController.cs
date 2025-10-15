@@ -1,10 +1,10 @@
+namespace ToDoListApp.WebApp.Controllers;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Common.Models;
 using ToDoListApp.WebApp.Models;
 using ToDoListApp.WebApp.Services.ServiceContracts;
-
-namespace ToDoListApp.WebApp.Controllers;
 
 public class ToDoListController : Controller
 {
@@ -57,5 +57,14 @@ public class ToDoListController : Controller
         ArgumentNullException.ThrowIfNull(createTaskDto);
         var result = await this.taskService.CreateTask(createTaskDto).ConfigureAwait(false);
         return this.RedirectToAction("GetTaskById", new { id = createTaskDto.ToDoListId });
+    }
+
+    [HttpPost]
+    [Route("/ToDoList/updatetask")]
+    public async Task<IActionResult> UpdateTask(Guid toDoListId, UpdateTaskDto? updateTaskDto)
+    {
+        ArgumentNullException.ThrowIfNull(updateTaskDto);
+        var result = await this.taskService.UpdateTask(updateTaskDto.Id, updateTaskDto).ConfigureAwait(false);
+        return this.RedirectToAction("GetTaskById", new { id = toDoListId });
     }
 }
