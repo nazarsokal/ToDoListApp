@@ -23,7 +23,9 @@ public class ToDoListDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder? modelBuilder)
     {
         if (modelBuilder == null)
+        {
             return;
+        }
 
         // ToDoList configuration
         modelBuilder.Entity<ToDoList>(entity =>

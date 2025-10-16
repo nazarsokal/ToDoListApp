@@ -37,4 +37,19 @@ public class TaskController : Controller
 
         return this.BadRequest();
     }
+
+    [HttpDelete]
+    [Route($"{ApiBaseUrl}/delete/{{id}}")]
+    public async Task<IActionResult> DeleteTask([FromRoute] Guid id)
+    {
+        var result = await this.taskService.DeleteTask(id).ConfigureAwait(false);
+        if (result != Guid.Empty)
+        {
+            return this.Ok(result);
+        }
+        else
+        {
+            return this.BadRequest();
+        }
+    }
 }

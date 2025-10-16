@@ -35,4 +35,16 @@ public class TaskService : ITaskService
 
         throw new NullReferenceException("Failed to fetch task from the API.");
     }
+
+    public async Task DeleteTask(Guid taskId)
+    {
+        var response = await this.httpClient.DeleteAsync($"{BaseUrl}/delete/{taskId}").ConfigureAwait(false);
+        if (response.IsSuccessStatusCode)
+        {
+        }
+        else
+        {
+            throw new NullReferenceException("Failed to delete task from the API.");
+        }
+    }
 }

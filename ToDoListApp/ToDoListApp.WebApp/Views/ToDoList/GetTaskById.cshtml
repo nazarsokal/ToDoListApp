@@ -76,9 +76,15 @@
                                 <button class="task-btn edit-btn" title="Edit">
                                     <i class="fa fa-edit"></i> Edit
                                 </button>
-                                <button class="task-btn delete-btn" title="Remove">
-                                    <i class="fa fa-trash"></i> Remove
-                                </button>
+                                <form method="post" 
+                                      asp-controller="ToDoList" 
+                                      asp-action="RemoveTask">" 
+                                    <input type="hidden" name="ToDoListId" value="@Model.ToDoListId" />
+                                    <input type="hidden" name="taskId" value="@task.TaskId" />
+                                    <button class="task-btn delete-btn" title="Remove">
+                                        <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         <form id="editForm-@task.TaskId"

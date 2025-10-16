@@ -67,4 +67,12 @@ public class ToDoListController : Controller
         var result = await this.taskService.UpdateTask(updateTaskDto.Id, updateTaskDto).ConfigureAwait(false);
         return this.RedirectToAction("GetTaskById", new { id = toDoListId });
     }
+
+    [HttpPost]
+    [Route("/ToDoList/removetask")]
+    public async Task<IActionResult> RemoveTask(Guid toDoListId, Guid taskId)
+    {
+        await this.taskService.DeleteTask(taskId).ConfigureAwait(false);
+        return this.RedirectToAction("GetTaskById", new { id = toDoListId });
+    }
 }
